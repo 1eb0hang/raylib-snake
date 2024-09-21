@@ -1,14 +1,22 @@
 
-INCLUDES = -I/home/wethinkcode/Dev/cpp/raylib/snake/libs/raylib/build/raylib/include
-LIB_DIR = -L/home/wethinkcode/Dev/cpp/raylib/snake/libs/raylib/build/raylib/
-LIBS = -lraylib
+LIBS= -lraylib
+LIB_DIR = "-Llibs/raylib-cpp-master/build/_deps/raylib-build/raylib/"
+INCLUDES = "-Ilibs/raylib-cpp-master/build/_deps/raylib-build/raylib/include/"
+
+OBJECTS = `ls src | grep cpp | sed "s/.*cpp/build\/&.o/" | sed "s/.cpp//"`
+
+all:main
 
 clean:
 	rm -rf build
 	mkdir build
 
 build/main.o : main.cpp
-	cd build && g++ -c -o main.o ${INCLUDES} ../main.cpp
+	g++ -c -o ./build/main.o ${INCLUDES} main.cpp
 
 main : build/main.o
-	cd build && g++ -o main main.o ${LIB_DIR} ${LIBS}
+	g++ -o ./build/main ./build/main.o ${LIB_DIR} ${LIBS}
+
+run:
+	make
+	./build/main
